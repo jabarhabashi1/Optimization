@@ -1,9 +1,7 @@
-# Optimization
-This repository features Python implementations of optimization algorithms: Genetic Algorithm (GA), Grey Wolf Optimizer (GWO), Artificial Bee Colony (ABC), and Particle Swarm Optimization (PSO). These widely-used algorithms effectively solve complex optimization problems and can be easily integrated into your projects for enhanced performance.
 # Optimization Algorithms in Python
 
 This repository contains Python implementations of several optimization algorithms that are widely used to solve complex optimization problems. Below are the details of each algorithm included in this repository:
-
+This repository features Python implementations of optimization algorithms: Genetic Algorithm (GA), Grey Wolf Optimizer (GWO), Artificial Bee Colony (ABC), and Particle Swarm Optimization (PSO). These widely-used algorithms effectively solve complex optimization problems and can be easily integrated into your projects for enhanced performance.
 ## Genetic Algorithm (GA)
 **Description:**  
 Genetic Algorithms are search heuristics inspired by the process of natural selection. They are used to find approximate solutions to optimization and search problems. GA operates through a process of selection, crossover, and mutation, evolving a population of candidate solutions toward optimal solutions over generations. This method is particularly effective in complex problem spaces where traditional optimization methods may struggle. The Python implementation in this repository allows for easy customization and experimentation with different parameters.
