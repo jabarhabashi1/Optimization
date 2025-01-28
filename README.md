@@ -4,9 +4,9 @@ This repository contains Python implementations of several **optimization algori
 
 💡 **This repository features Python implementations of optimization algorithms**:
 - **Genetic Algorithm (GA)** 🧬
-- **Grey Wolf Optimizer (GWO)** 🐺
 - **Artificial Bee Colony (ABC)** 🐝
 - **Particle Swarm Optimization (PSO)** 🐦
+- **Grey Wolf Optimizer (GWO)** 🐺
 - **Ant Colony Optimization (ACO)** 🐜  
 
 These widely-used algorithms effectively solve complex optimization problems and can be easily integrated into your projects for enhanced performance.
