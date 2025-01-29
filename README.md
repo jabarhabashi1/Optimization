@@ -95,6 +95,23 @@ ACO is inspired by how ants lay down **pheromones** to mark paths to food source
 
 ---
 
+### Key Insights:
+
+1. GA excels in avoiding local optima but is slow and parameter-sensitive.
+
+2. ABC is simple and noise-resistant but struggles with scalability and discrete spaces.
+
+3. PSO converges quickly but risks local optima in rugged landscapes.
+
+4. GWO balances exploration-exploitation with minimal tuning but lacks theoretical depth.
+
+5. ACO dominates combinatorial optimization but is computationally heavy for continuous tasks.
+
+Choose based on problem type (discrete/continuous), computational resources, and need for speed vs. accuracy! 🚀
+
+
+---
+
 ### Optimization Benefits Recap 🏆
 These algorithms excel in scenarios where conventional optimization methods (like gradient descent) struggle due to:  
 🌟 **Non-linearity**, 📏 **High-dimensional spaces**, or 🌫️ **Noisy functions**.
