@@ -96,18 +96,19 @@ This repository features a Python implementation of the **Covariance Matrix Adap
 
 ### Why Use CMA-ES?  
 
-⚡ Adaptive Search: CMA-ES dynamically adjusts the search distribution, enabling efficient solution space exploration.  
-📈 Robust to Noisy Functions: Handles noisy, non-convex, and multi-modal optimization problems effectively.  
-🛠 No Need for Gradients: Ideal for black-box functions where derivatives are unavailable.  
+⚡ **Adaptive Search**: CMA-ES dynamically adjusts the search distribution, enabling efficient solution space exploration.  
+📈 **Robust to Noisy Functions**: Handles noisy, non-convex, and multi-modal optimization problems effectively.  
+🛠 **No Need for Gradients**: Ideal for black-box functions where derivatives are unavailable.  
 
-### Applications of CMA-ES:  
+### **Applications of CMA-ES**:  
 
 🔬 Hyperparameter tuning in deep learning and machine learning.  
 🎮 Game AI for optimizing strategies and behaviors.  
 📊 Financial modeling to optimize trading strategies.  
-🤖 Robotics for trajectory planning and control.  
+🤖 Robotics for trajectory planning and control. 
 🛰 Engineering design for aerodynamic and structural optimizations.  
 🚀 Easily integrate CMA-ES into your Python projects to solve challenging optimization problems with minimal effort!  
+
 ---
 ### Advantages, Disadvantages, and Limitations ⚖️  
 
