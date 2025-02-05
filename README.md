@@ -7,7 +7,8 @@ This repository contains Python implementations of several **optimization algori
 - **Artificial Bee Colony (ABC)** 🐝
 - **Particle Swarm Optimization (PSO)** 🐦
 - **Grey Wolf Optimizer (GWO)** 🐺
-- **Ant Colony Optimization (ACO)** 🐜  
+- **Ant Colony Optimization (ACO)** 🐜
+- Covariance Matrix Adaptation Evolution Strategy (CMA-ES) 🧠🔄  
 
 These widely-used algorithms effectively solve complex optimization problems and can be easily integrated into your projects for enhanced performance.
 
@@ -82,17 +83,42 @@ ACO is inspired by how ants lay down **pheromones** to mark paths to food source
 📦 Routing problems, 📅 scheduling, and 🌐 network optimization.
 
 ---
+## 6. Covariance Matrix Adaptation Evolution Strategy (CMA-ES) 🧠🔄  
 
-### Advantages, Disadvantages, and Limitations ⚖️
+This repository features a Python implementation of the **Covariance Matrix Adaptation Evolution Strategy (CMA-ES)**, a powerful optimization algorithm designed for continuous and complex search spaces. CMA-ES is widely recognized for its adaptive learning of the search distribution, making it a highly effective method for black-box optimization problems.  
 
-| Algorithm                  | Advantages                           | Disadvantages                           | Limitations                                                                 |
-|----------------------------|---------------------------------------|-----------------------------------------|-----------------------------------------------------------------------------|
-| **Genetic Algorithm (GA)** 🧬 | - Robust to local optima  <br> - Great for non-linear problems 🌐 <br> - Parallelizable 🖥️  | - Computationally expensive 💻  <br> - Slow convergence 🐌  | Requires careful parameter tuning; not ideal for real-time tasks.           |
+### How CMA-ES Works:  
+
+✅ **Initialization**: A population of candidate solutions is sampled from a multivariate normal distribution.  
+✅ **Selection**: The best-performing solutions are chosen based on their fitness values.  
+✅ **Adaptation**: The covariance matrix is updated to refine the search distribution, improving exploration and exploitation.  
+✅ **Mutation & Recombination**: Small variations are introduced to maintain diversity and prevent premature convergence.  
+
+### Why Use CMA-ES?  
+
+⚡ **Adaptive Search**: CMA-ES dynamically adjusts the search distribution, enabling efficient solution space exploration.  
+📈 **Robust to Noisy Functions**: Handles noisy, non-convex, and multi-modal optimization problems effectively.  
+🛠 **No Need for Gradients**: Ideal for black-box functions where derivatives are unavailable.  
+
+### Applications of CMA-ES:  
+
+🔬 **Hyperparameter tuning** in deep learning and machine learning.  
+🎮 **Game AI** for optimizing strategies and behaviors.  
+📊 **Financial modeling** to optimize trading strategies.  
+🤖 **Robotics** for trajectory planning and control.  
+🛰 **Engineering design** for aerodynamic and structural optimizations.  
+🚀 **Easily integrate CMA-ES into your Python projects** to solve challenging optimization problems with minimal effort!  
+---
+### Advantages, Disadvantages, and Limitations ⚖️  
+
+| Algorithm                      | Advantages                                           | Disadvantages                                      | Limitations                                                                |
+|--------------------------------|-----------------------------------------------------|--------------------------------------------------|----------------------------------------------------------------------------|
+| **Genetic Algorithm (GA)** 🧬   | - Robust to local optima  <br> - Great for non-linear problems 🌐 <br> - Parallelizable 🖥️  | - Computationally expensive 💻  <br> - Slow convergence 🐌  | Requires careful parameter tuning; not ideal for real-time tasks.          |
 | **Artificial Bee Colony (ABC)** 🐝 | - Simple 🛠️ <br> - Effective at global optima 🌎 <br> - Handles noisy functions well 🎵  | - Stagnates on complex problems 🤔 <br> - Poor performance in high dimensions 🧮  | Best for continuous functions; struggles with discrete problems.            |
 | **Particle Swarm Optimization (PSO)** 🐦 | - Fast convergence ⚡ <br> - Few parameters required ✔️ <br> - Works well for dynamic systems 🔄  | - Trapped in local optima 🚧 <br> - Needs extra strategies for multi-modal problems  | Struggles with rugged or discontinuous search spaces.                        |
 | **Grey Wolf Optimizer (GWO)** 🐺 | - Balanced exploration & exploitation ⚖️ <br> - Minimal parameter tuning 🛠️  | - Premature convergence ❌  | Limited theoretical backing; less effective for complex real-world tasks.   |
 | **Ant Colony Optimization (ACO)** 🐜 | - Great for discrete problems 🧩 <br> - Scales to large problems 🏗️ <br> - Adaptive to changes 🔧  | - Computationally intensive 🖥️ <br> - Slow convergence ⏳  | Best for combinatorial problems; requires modification for continuous tasks. |
-
+| **Covariance Matrix Adaptation Evolution Strategy (CMA-ES)** 🧠🔄 | - Highly adaptive search distribution 📊 <br> - Excels in continuous optimization 🔢 <br> - Efficient for high-dimensional problems 📈  | - High computational cost 💰 <br> - Requires a large number of function evaluations 🏃 | Best suited for smooth, continuous spaces; struggles with discrete or noisy data. |
 ---
 
 ### Key Insights:
