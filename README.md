@@ -89,10 +89,10 @@ This repository features a Python implementation of the **Covariance Matrix Adap
 
 ### How CMA-ES Works:  
 
-✅ **Initialization**: A population of candidate solutions is sampled from a multivariate normal distribution.  
-✅ **Selection**: The best-performing solutions are chosen based on their fitness values.  
-✅ **Adaptation**: The covariance matrix is updated to refine the search distribution, improving exploration and exploitation.  
-✅ **Mutation & Recombination**: Small variations are introduced to maintain diversity and prevent premature convergence.  
+- **Initialization**: A population of candidate solutions is sampled from a multivariate normal distribution.  
+- **Selection**: The best-performing solutions are chosen based on their fitness values.  
+- **Adaptation**: The covariance matrix is updated to refine the search distribution, improving exploration and exploitation.  
+- **Mutation & Recombination**: Small variations are introduced to maintain diversity and prevent premature convergence.  
 
 ### Why Use CMA-ES?  
 
