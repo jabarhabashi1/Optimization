@@ -122,20 +122,16 @@ This repository features a Python implementation of the **Covariance Matrix Adap
 | **Covariance Matrix Adaptation Evolution Strategy (CMA-ES)** 🧠🔄 | - Highly adaptive search distribution 📊 <br> - Excels in continuous optimization 🔢 <br> - Efficient for high-dimensional problems 📈  | - High computational cost 💰 <br> - Requires a large number of function evaluations 🏃 | Best suited for smooth, continuous spaces; struggles with discrete or noisy data. |
 ---
 
-### Key Insights:
+### Key Insights:  
 
-1. GA excels in avoiding local optima but is slow and parameter-sensitive.
+- **GA** 🧬 excels in avoiding local optima but is slow 🐢 and parameter-sensitive ⚙️.  
+- **ABC** 🐝 is simple 🛠️ and noise-resistant 🎵 but struggles with scalability 📉 and discrete spaces.  
+- **PSO** 🐦 converges quickly ⚡ but risks local optima 🚧 in rugged landscapes.  
+- **GWO** 🐺 balances exploration-exploitation ⚖️ with minimal tuning 🔧 but lacks theoretical depth 📖.  
+- **ACO** 🐜 dominates combinatorial optimization 🧩 but is computationally heavy 🖥️ for continuous tasks.  
+- **CMA-ES** 🧠🔄 is highly effective for high-dimensional 📊 continuous optimization 🔢, adapts dynamically 🔄, but demands significant computational power 💰 and function evaluations 🏃.  
 
-2. ABC is simple and noise-resistant but struggles with scalability and discrete spaces.
-
-3. PSO converges quickly but risks local optima in rugged landscapes.
-
-4. GWO balances exploration-exploitation with minimal tuning but lacks theoretical depth.
-
-5. ACO dominates combinatorial optimization but is computationally heavy for continuous tasks.
-
-Choose based on problem type (discrete/continuous), computational resources, and need for speed vs. accuracy! 🚀
-
+🔹 **Choose based on problem type (discrete/continuous) 🔢, computational resources 💻, and need for speed ⚡ vs. accuracy 🎯!** 🚀
 
 ---
 
