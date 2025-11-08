@@ -278,13 +278,13 @@ Optuna complements the other metaheuristics by providing a **high-level, flexibl
 3. Run any script directly, for example:
     ```bash
    pip install numpy matplotlib optuna cma
-   python "GA, Genetic Algorithm.py"
-   python "ABC, Artificial Bee Colony.py"
-   python "PSO, Particle Swarm Optimization.py"
-   python "ACO, Ant Colony Optimization.py"
-   python "CMA-ES, Covariance Matrix Adaptation Evolution Strategy.py"
+   python "GA.py"
+   python "ABC.py"
+   python "PSO.py"
+   python "ACO.py"
+   python "CMA-ES.py"
    python "Optuna_optimizer.py"
-ٍEach script prints the best solution and objective value and displays a convergence plot so you can visually compare how different algorithms behave.
+Each script prints the best solution and objective value and displays a convergence plot so you can visually compare how different algorithms behave.
 
 Happy optimizing! 🚀🐍
   ```bash
