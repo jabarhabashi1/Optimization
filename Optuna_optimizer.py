@@ -3,7 +3,8 @@ import optuna
 import matplotlib.pyplot as plt
 from typing import Dict, Tuple, Callable, Optional
 
-# ---------- Early stopping callbacks (استخراج‌شده و ساده‌شده) ----------
+# ---------- Early stopping callbacks (extracted and simplified) ----------
+
 
 def make_plateau_cb(
     min_trials: int = 50,
@@ -12,10 +13,12 @@ def make_plateau_cb(
     abs_tol: float = 1e-4,
 ):
     """
-    اگر بعد از حداقل min_trials، در پنجره‌ی آخر به طول patience
-    بهبود قابل توجهی (بزرگ‌تر از آستانه) رخ ندهد، study را متوقف می‌کند.
-    برای حالت minimize نوشته شده است.
+    If, after at least `min_trials` have been completed, there is no
+    significant improvement (greater than the threshold) within the last
+    `patience` trials, the study is stopped.
+    This is written for the `minimize` direction.
     """
+
     def _cb(study: optuna.Study, trial: optuna.trial.FrozenTrial):
         completed = [
             t for t in study.trials
@@ -24,16 +27,16 @@ def make_plateau_cb(
         if len(completed) < (min_trials + patience):
             return
 
-        # بهترین مقدار قبل از پنجره‌ی اخیر
+        # Best value before the recent window
         prev_best = min(t.value for t in completed[:-patience])
-        # بهترین مقدار داخل پنجره‌ی اخیر
+        # Best value inside the recent window
         recent_best = min(t.value for t in completed[-patience:])
 
-        # آستانه بهبود
+        # Improvement threshold
         thr = max(abs_tol, rel_tol * max(abs(prev_best), 1.0))
 
-        # اگر بهبودِ prev_best → recent_best کمتر از thr باشد متوقف کن
-        # (برای minimize: هر چه کوچک‌تر بهتر)
+        # If the improvement from `prev_best` to `recent_best` is smaller
+        # than `thr`, stop (for `minimize`: smaller is better).
         if (prev_best - recent_best) <= thr:
             study.stop()
 
@@ -46,9 +49,10 @@ def make_span_cb(
     abs_tol: float = 1e-4,
 ):
     """
-    اگر در آخرین window مقدار، بازه‌ی (max - min) خیلی کوچک باشد،
-    یعنی مقادیر تقریباً تخت شده‌اند → متوقف کن.
+    If, for the last `window` values, the span (max - min) becomes very small,
+    we assume the objective values have essentially flattened out → stop.
     """
+
     def _cb(study: optuna.Study, trial: optuna.trial.FrozenTrial):
         vals = [t.value for t in study.trials if t.value is not None]
         if len(vals) < window:
@@ -67,9 +71,10 @@ def make_span_cb(
 
 def make_progress_cb(total_trials: int, every: int = 10):
     """
-    یک کال‌بک ساده برای نمایش پیشرفت روی کنسول.
-    هر every تریال یک خط چاپ می‌کند.
+    A simple callback for printing progress to the console.
+    Prints one log line every `every` completed trials.
     """
+
     def _cb(study: optuna.Study, trial: optuna.trial.FrozenTrial):
         done = len([
             t for t in study.trials
@@ -84,7 +89,8 @@ def make_progress_cb(total_trials: int, every: int = 10):
             if t.state.name == "COMPLETE" and t.value is not None
         ]
         if completed_vals:
-            best = min(completed_vals)  # چون داریم minimize می‌کنیم
+            # because we are minimizing
+            best = min(completed_vals)
             best_str = f"{best:.6f}"
         else:
             best_str = "n/a"
@@ -103,14 +109,15 @@ def make_progress_cb(total_trials: int, every: int = 10):
     return _cb
 
 
-# ---------- Generic optimizer wrapper (هسته اپتیمایزر) ----------
+# ---------- Generic optimizer wrapper (optimizer core) ----------
+
 
 def run_optuna_optimizer(
     objective_function: Callable[[Dict[str, float]], float],
     search_space: Dict[str, Tuple[float, float]],
     n_trials: int = 200,
     seed: Optional[int] = None,
-    stop_mode: str = "Plateau",  # "Plateau" یا "Span"
+    stop_mode: str = "Plateau",  # "Plateau" or "Span"
     min_trials: int = 50,
     patience: int = 20,
     rel_tol: float = 1e-3,
@@ -118,37 +125,39 @@ def run_optuna_optimizer(
 ):
     """
     objective_function:
-        تابع هدفی که یک دیکشنری از پارامترها را می‌گیرد و مقدار اسکالر برمی‌گرداند.
-        این تابع باید طوری تعریف شود که «هر چه مقدارش کمتر باشد، بهتر است» (minimize).
+        A callable that takes a dictionary of parameters and returns
+        a scalar value. It must be defined such that "smaller is better"
+        (we use `direction="minimize"`).
 
     search_space:
-        دیکشنری فضای جستجو:
+        Dictionary describing the search space:
             {
                 "x": (x_min, x_max),
                 "y": (y_min, y_max),
                 ...
             }
 
-    خروجی:
+    Returns:
         study, best_params, best_value
     """
 
     def objective(trial: optuna.trial.Trial) -> float:
-        # نمونه‌برداری از فضای جستجو
+        # Sample parameters from the search space
         params: Dict[str, float] = {}
         for name, bounds in search_space.items():
             low, high = bounds
             params[name] = trial.suggest_float(name, float(low), float(high))
         value = float(objective_function(params))
-        return value  # Optuna آن را مینیمم می‌کند (direction="minimize")
+        # Optuna will minimize this value (direction="minimize")
+        return value
 
-    # همان TPE Sampler که در کدت استفاده کرده‌ای، با چند تنظیم مفید
+    # TPE sampler similar to the one used in your code, with some useful settings
     sampler = optuna.samplers.TPESampler(
         seed=int(seed) if seed is not None else None,
         multivariate=True,
         n_startup_trials=20,
         n_ei_candidates=50,
-        group=True,  # اگر نسخه Optuna قدیمی بود و خطا داد، این آرگومان را حذف کن.
+        group=True,  # If you use an older Optuna version and it fails, remove this argument.
     )
 
     study = optuna.create_study(
@@ -156,7 +165,7 @@ def run_optuna_optimizer(
         sampler=sampler
     )
 
-    # انتخاب کال‌بک توقف زودهنگام
+    # Choose the early-stopping callback
     if (stop_mode or "Plateau").lower().startswith("plat"):
         cb_early = make_plateau_cb(
             min_trials=min_trials,
@@ -173,7 +182,7 @@ def run_optuna_optimizer(
 
     cb_prog = make_progress_cb(
         total_trials=n_trials,
-        every=max(n_trials // 20, 1)  # حدوداً ۲۰ لاگ در طول کار
+        every=max(n_trials // 20, 1)  # Roughly 20 log lines over the whole run
     )
 
     study.optimize(
@@ -188,45 +197,44 @@ def run_optuna_optimizer(
     return study, best_params, best_value
 
 
-# ---------- مثال استفاده؛ شبیه ABC.py ----------
+# ---------- Example usage; similar to ABC.py ----------
 
 if __name__ == "__main__":
-    # ۱) تعریف تابع هدف
-    # اینجا همان تابع ABC را استفاده کرده‌ام:
+    # 1) Define the objective function
+    # Here we use a simple test objective (originally from an ABC-style example):
     #   f(x) = |14.5 x - 16|
-    # هدف: کمینه کردن این مقدار.
+    # Goal: minimize this value.
     def objective_function(params: Dict[str, float]) -> float:
         x = params["x"]
         Y = params["Y"]
 
         return float(np.abs(10 * x + 5) - (10 * Y - 20))
 
-    # ۲) تعریف فضای جستجو (مثلاً فقط یک متغیر x)
-    # ۲) تعریف فضای جستجو
+    # 2) Define the search space
     search_space = {
         "x": (-50.0, 50.0),  # x_min, x_max
-        "Y": (-50.0, 50.0),  # Y_min, Y_max  ← این را اضافه کن (بازه را هرطور لازم است تنظیم کن)
+        "Y": (-50.0, 50.0),  # Y_min, Y_max (tune bounds as needed)
     }
 
-    # ۳) اجرای اپتیمایزر
+    # 3) Run the optimizer
     study, best_params, best_value = run_optuna_optimizer(
-        objective_function=objective_function,  # تابع هدف: ورودی‌اش دیکشنری پارامترهاست و یک عدد برمی‌گرداند؛ اپتیمایزر سعی می‌کند این عدد را «کمینه یا بیشینه» کند.
-        search_space=search_space,              # فضای جست‌وجو: مشخص می‌کند هر پارامتر در چه بازه‌ای می‌تواند باشد.
-        n_trials=400,                           # تعداد تریال‌ها (آزمایش‌ها): حداکثر چند بار Optuna ترکیب‌های مختلف پارامترها را امتحان کند. هرچه بیشتر، جست‌وجو دقیق‌تر ولی زمان‌برتر.
-        seed=42,                                # بذر تصادفی (random seed): برای تکرارپذیری. اگر دفعه‌های بعد هم با همین seed و تنظیمات اجرا کنی،تقریباً همان جواب‌ها را می‌گیری.
-        stop_mode="Plateau",                    # نوع توقف زودهنگام:"Plateau": اگر مدتی بهبودی در نتیجه دیده نشود، متوقف شود. "Span": اگر مقادیر اخیر خیلی به هم نزدیک شوند (نوسان کم)، متوقف شود.
-        min_trials=50,                          # حداقل تعداد تریالی که قبل از بررسی توقف باید انجام شود.در حالت Plateau: تا قبل از 50 تریال، اصلاً به توقف فکر نمی‌کند.در حالت Span: اندازه‌ی پنجره‌ای که آخرین مقادیر را بررسی می‌کند.
-        patience=20,                            # مخصوص حالت Plateau:اگر در 20 تریال آخر، بهبود معنی‌دار نسبت به قبل رخ ندهد،اپتیمایزر را متوقف می‌کند.
-        rel_tol=1e-3,                           # آستانه‌ی بهبود نسبی (relative tolerance):یعنی اگر بهبود کمتر از حدود 0.1٪ مقدار قبلی باشد،حساب می‌شود که «دیگر بهبود خاصی نشده».
-        abs_tol=1e-4,                           # آستانه‌ی بهبود مطلق (absolute tolerance): حداقل بهبود بر حسب مقدار مطلق. اگر فرق قدیم و جدید از این هم کمتر باشد، یعنی عملاً تغییری نکرده.در عمل، thr = max(abs_tol, rel_tol * مقدار) استفاده می‌شود.
+        objective_function=objective_function,  # Objective function: takes a dict of parameters and returns a scalar; the optimizer tries to minimize this value.
+        search_space=search_space,              # Search space: defines the allowed range for each parameter.
+        n_trials=400,                           # Number of trials: maximum number of parameter combinations Optuna will evaluate. More trials = better search but longer runtime.
+        seed=42,                                # Random seed for reproducibility. Re-running with the same seed and settings should give very similar results.
+        stop_mode="Plateau",                    # Early-stopping mode: "Plateau" stops if there is no improvement for a while; "Span" stops if recent values are very close to each other.
+        min_trials=50,                          # Minimum number of trials before we even check early stopping. For "Plateau" this is the warm-up; for "Span" this is the window size.
+        patience=20,                            # Used only in "Plateau" mode: if there is no significant improvement in the last 20 trials, stop.
+        rel_tol=1e-3,                           # Relative tolerance for improvement: if improvement is less than about 0.1% of the previous value, we treat it as no improvement.
+        abs_tol=1e-4,                           # Absolute tolerance: minimum absolute improvement. In practice we use thr = max(abs_tol, rel_tol * |value|).
     )
 
-    # ۴) چاپ نتیجه نهایی
+    # 4) Print final result
     print("\n========== RESULT ==========")
     print("Best params:", best_params)
     print("Best objective value:", best_value)
 
-    # ۵) رسم نمودار همگرایی (بهترین مقدار تاکنون نسبت به شماره تریال)
+    # 5) Plot convergence curve (best value so far vs trial index)
     values = [
         t.value
         for t in study.trials
@@ -235,7 +243,7 @@ if __name__ == "__main__":
 
     if values:
         values = np.array(values, dtype=float)
-        # چون minimize است، best-so-far یعنی مینیمم تجمعی
+        # Because we are minimizing, "best so far" is the cumulative minimum
         best_so_far = np.minimum.accumulate(values)
 
         plt.figure(figsize=(6, 4))
