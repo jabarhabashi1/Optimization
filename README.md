@@ -1,4 +1,3 @@
-````markdown
 # Optimization Algorithms in Python 🚀🐍
 
 This repository contains Python implementations of several **metaheuristic and black-box optimization algorithms**.  
@@ -276,23 +275,3 @@ Optuna complements the other metaheuristics by providing a **high-level, flexibl
 
    ```bash
    pip install numpy matplotlib optuna cma
-````
-
-3. Run any script directly, for example:
-
-   ```bash
-   python "GA, Genetic Algorithm.py"
-   python "ABC, Artificial Bee Colony.py"
-   python "PSO, Particle Swarm Optimization.py"
-   python "ACO, Ant Colony Optimization.py"
-   python "CMA-ES, Covariance Matrix Adaptation Evolution Strategy.py"
-   python "Optuna_optimizer.py"
-   ```
-
-Each script prints the **best solution and objective value** and displays a **convergence plot** so you can visually compare how different algorithms behave.
-
-Happy optimizing! 🚀🐍
-
-```
-::contentReference[oaicite:1]{index=1}
-```
